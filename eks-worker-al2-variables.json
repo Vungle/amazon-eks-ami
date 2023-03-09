@@ -6,7 +6,7 @@
     "ami_users": "",
     "associate_public_ip_address": "",
     "aws_access_key_id": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "aws_region": "us-west-2",
+    "aws_region": "us-east-1",
     "aws_secret_access_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
     "aws_session_token": "{{env `AWS_SESSION_TOKEN`}}",
     "binary_bucket_name": "amazon-eks",
@@ -16,8 +16,8 @@
     "containerd_version": "1.6.6-1.amzn2.0.2",
     "creator": "{{env `USER`}}",
     "docker_version": "20.10.17-1.amzn2.0.1",
-    "encrypted": "false",
-    "kernel_version": "",
+    "encrypted": "true",
+    "kernel_version": "5.4",
     "kms_key_id": "",
     "launch_block_device_mappings_volume_size": "4",
     "pause_container_version": "3.5",    
@@ -31,7 +31,7 @@
     "source_ami_owners": "137112412989",
     "ssh_interface": "",
     "ssh_username": "ec2-user",
-    "subnet_id": "",
+    "subnet_id": "subnet-09d4f3a9bc981735f",
     "temporary_security_group_source_cidrs": "",
     "volume_type": "gp2"
 }
