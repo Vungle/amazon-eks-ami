@@ -40,6 +40,40 @@ jobs:
         jq '.subnet_id = "'${AWS_SUBNET_ID_US_EAST_1}'"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
         make $GITHUB_REF_NAME
   
+  build-us-east-1-arm64:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Assume github action role
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        role-to-assume: "arn:aws:iam::320005014399:role/github-action"
+        aws-region: us-east-1
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: arn:aws:iam::320005014399:role/eks-ami-builder
+        role-skip-session-tagging: true
+        role-duration-seconds: 3600
+
+    - name: Setup `packer`
+      uses: hashicorp/setup-packer@main
+      id: setup
+      with:
+        version: "1.8.6" 
+
+    - name: Build us-east-1 arm64
+      run: |
+        jq '.aws_region = "us-east-1"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
+        jq '.subnet_id = "'${AWS_SUBNET_ID_US_EAST_1}'"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
+        make $GITHUB_REF_NAME arch=arm64
+
   build-us-west-2:
     runs-on: ubuntu-latest
     steps:
@@ -73,3 +107,37 @@ jobs:
         jq '.aws_region = "us-west-2"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
         jq '.subnet_id = "'${AWS_SUBNET_ID_US_WEST_2}'"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
         make $GITHUB_REF_NAME
+
+  build-us-west-2-arm64:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Assume github action role
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        role-to-assume: "arn:aws:iam::320005014399:role/github-action"
+        aws-region: us-west-2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: arn:aws:iam::320005014399:role/eks-ami-builder
+        role-skip-session-tagging: true
+        role-duration-seconds: 3600
+
+    - name: Setup `packer`
+      uses: hashicorp/setup-packer@main
+      id: setup
+      with:
+        version: "1.8.6" 
+
+    - name: Build us-west-2 arm64
+      run: |
+        jq '.aws_region = "us-west-2"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
+        jq '.subnet_id = "'${AWS_SUBNET_ID_US_WEST_2}'"' eks-worker-al2-variables.json > tmp && mv tmp eks-worker-al2-variables.json
+        make $GITHUB_REF_NAME arch=arm64
