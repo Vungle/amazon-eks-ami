@@ -12,6 +12,8 @@ ExecStart=/usr/bin/kubelet \
     --container-runtime docker \
     --cpu-manager-policy static \
     --network-plugin cni \
+    --image-credential-provider-config /etc/eks/image-credential-provider/config.json \
+    --image-credential-provider-bin-dir /etc/eks/image-credential-provider \
     $KUBELET_ARGS \
     $KUBELET_EXTRA_ARGS
 

@@ -19,12 +19,20 @@ elif [[ $KERNEL_VERSION == "5.4" ]]; then
   sudo amazon-linux-extras install -y kernel-5.4
   sudo yum install kernel-devel -y
 else
-  sudo amazon-linux-extras install -y "kernel-${KERNEL_VERSION}"
+  KERNEL_MINOR_VERSION=$(echo ${KERNEL_VERSION} | cut -d. -f-2)
+  sudo amazon-linux-extras enable "kernel-${KERNEL_MINOR_VERSION}"
+  sudo yum install -y "kernel-${KERNEL_VERSION}*"
 fi
+
+sudo yum install -y "kernel-headers-${KERNEL_VERSION}*" "kernel-devel-${KERNEL_VERSION}*"
 
 # enable pressure stall information
 sudo grubby \
   --update-kernel=ALL \
   --args="psi=1"
 
-sudo reboot
+# use the tsc clocksource by default
+# https://repost.aws/knowledge-center/manage-ec2-linux-clock-source
+sudo grubby \
+  --update-kernel=ALL \
+  --args="clocksource=tsc tsc=reliable"
