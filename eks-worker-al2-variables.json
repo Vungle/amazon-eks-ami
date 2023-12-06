@@ -31,7 +31,7 @@
     "source_ami_owners": "137112412989",
     "ssh_interface": "",
     "ssh_username": "ec2-user",
-    "subnet_id": "subnet-09d4f3a9bc981735f",
+    "subnet_id": "subnet-0b49e387336a55429",
     "ssm_agent_version": "",
     "temporary_security_group_source_cidrs": "",
     "volume_type": "gp2",
