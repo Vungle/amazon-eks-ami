@@ -28,6 +28,13 @@ jobs:
         role-skip-session-tagging: true
         role-duration-seconds: 3600
 
+    - name: Connect to Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+        oauth-secret: ${{ secrets.TAILSCALE_SECRET }}
+        tags: tag:dmx-prod
+        
     - name: Setup `packer`
       uses: hashicorp/setup-packer@main
       id: setup
@@ -38,7 +45,10 @@ jobs:
       run: |
         VERSION="${GITHUB_REF_NAME:1}"
         make k8s=$VERSION
-  
+    
+    - name: Disconnect form Tailscale
+      run: sudo tailscale down
+
   build-us-east-1-arm64:
     runs-on: ubuntu-latest
     steps:
@@ -61,6 +71,13 @@ jobs:
         role-skip-session-tagging: true
         role-duration-seconds: 3600
 
+    - name: Connect to Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+        oauth-secret: ${{ secrets.TAILSCALE_SECRET }}
+        tags: tag:dmx-prod
+
     - name: Setup `packer`
       uses: hashicorp/setup-packer@main
       id: setup
@@ -71,3 +88,6 @@ jobs:
       run: |
         VERSION="${GITHUB_REF_NAME:1}"
         make k8s=$VERSION arch=arm64
+    
+    - name: Disconnect form Tailscale
+      run: sudo tailscale down
