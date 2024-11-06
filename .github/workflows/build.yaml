@@ -36,7 +36,8 @@ jobs:
 
     - name: Build us-east-1
       run: |
-        make $GITHUB_REF_NAME
+        VERSION="${GITHUB_REF_NAME:1}"
+        make k8s=$VERSION
   
   build-us-east-1-arm64:
     runs-on: ubuntu-latest
@@ -68,4 +69,5 @@ jobs:
 
     - name: Build us-east-1 arm64
       run: |
-        make $GITHUB_REF_NAME arch=arm64
+        VERSION="${GITHUB_REF_NAME:1}"
+        make k8s=$VERSION arch=arm64
