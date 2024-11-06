@@ -27,8 +27,10 @@
   "cgroupDriver": "cgroupfs",
   "cgroupRoot": "/",
   "featureGates": {
-    "RotateKubeletServerCertificate": true
+    "RotateKubeletServerCertificate": true,
+    "CPUManager": true
   },
+  "CPUManagerPolicy": "static",
   "protectKernelDefaults": true,
   "serializeImagePulls": false,
   "serverTLSBootstrap": true,
